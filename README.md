@@ -4,6 +4,8 @@
 Simple programming language made in Python.
 It simulates a stack memory in numbers and you can code with that.
 
+`python3 StackLang/interpreter.py program.sl`
+
 *Programming language is on development and it could change the commands without advertising.*
 
 ## Example
