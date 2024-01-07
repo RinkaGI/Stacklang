@@ -1,0 +1,5 @@
+Current position: 0
+Current position: 1
+Current position: 2
+Current position: 1
+Current position: 0

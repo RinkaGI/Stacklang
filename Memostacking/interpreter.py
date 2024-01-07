@@ -30,17 +30,60 @@ class Parser:
 
             # input and output
             if token == "input":
-                program["code"].append({"type": "INPUT_TOKEN", "params": None})
+                # program["code"].append({"type": "INPUT_TOKEN", "params": None})
+                if words[1] == "verbose":
+                    program["code"].append({"type": "INPUT_TOKEN", "params": {"verbose": True}})
+                elif words[1] == "no.verbose":
+                    program["code"].append({"type": "INPUT_TOKEN", "params": {"verbose": False}})
+                elif not words[1]:
+                    program["code"].append({"type": "INPUT_TOKEN", "params": {"verbose": False}})
+                else:
+                    print("Error: Input command has a unidentified parameter.")
             if token == "show.current.value":
-                program["code"].append({"type": "SHOWCURRENTVALUE_TOKEN", "params": None})
+                if words[1] == "verbose":
+                    program["code"].append({"type": "SHOWCURRENTVALUE_TOKEN", "params": {"verbose": True}})
+                elif words[1] == "no.verbose":
+                    program["code"].append({"type": "SHOWCURRENTVALUE_TOKEN", "params": {"verbose": False}})
+                elif not words[1]:
+                    program["code"].append({"type": "SHOWCURRENTVALUE_TOKEN", "params": {"verbose": False}})
+                else:
+                    print("Error: show.current.value command has a unidentified parameter.")
             if token == "show.current.position":
-                program["code"].append({"type": "SHOWCURRENTPOSITION_TOKEN", "params": None})
+                if words[1] == "verbose":
+                    program["code"].append({"type": "SHOWCURRENTPOSITION_TOKEN", "params": {"verbose": True}})
+                elif words[1] == "no.verbose":
+                    program["code"].append({"type": "SHOWCURRENTPOSITION_TOKEN", "params": {"verbose": False}})
+                elif not words[1]:
+                    program["code"].append({"type": "SHOWCURRENTPOSITION_TOKEN", "params": {"verbose": False}})
+                else:
+                    print("Error: show.current.position command has a unidentified parameter.")
 
+            if token == "print":
+                if len(words) > 1:
+                    # Buscamos el índice de la primera comilla
+                    start_quote_index = line.find('"')
+                    if start_quote_index != -1:
+                        # Si encontramos una comilla, buscamos la segunda comilla a partir de ahí
+                        end_quote_index = line.find('"', start_quote_index + 1)
+                        if end_quote_index != -1:
+                            # Extraemos la frase entre comillas
+                            value = line[start_quote_index + 1:end_quote_index]
+                            program["code"].append({"type": "PRINT_TOKEN", "params": {"value": value}})
+                        else:
+                            print("Error: Missing closing quote in print command.")
+                    else:
+                        print("Error: Missing opening quote in print command.")
+                else:
+                    print("Error: print command requires a parameter.")
             # math
             if token == "add":
                 program["code"].append({"type": "ADD_TOKEN", "params": None})
             if token == "sub":
                 program["code"].append({"type": "SUBSTRACT_TOKEN", "params": None})
+            if token == "mul":
+                program["code"].append({"type": "MULTIPLY_TOKEN", "params": None})
+            if token == "div":
+                program["code"].append({"type": "DIV_TOKEN", "params": None})
 
             # movement
             if token == "advance":
@@ -97,11 +140,24 @@ class Interpreter:
                 self.memory.exit()
 
             if token_type == "INPUT_TOKEN":
-                self.memory.new(int(input()))
+                # self.memory.new(int(input()))
+                if token_info["params"]["verbose"] == True:
+                    self.memory.new(int(input("Input> ")))
+                elif token_info["params"]["verbose"] == False:
+                    self.memory.new(int(input()))
             if token_type == "SHOWCURRENTVALUE_TOKEN":
-                print(str(self.memory.buf[self.memory.sp]))
+                if token_info["params"]["verbose"] == True:
+                    print(str("Current value: " + str(self.memory.buf[self.memory.sp])))
+                elif token_info["params"]["verbose"] == False:
+                    print(str(self.memory.buf[self.memory.sp]))
             if token_type == "SHOWCURRENTPOSITION_TOKEN":
-                print(str(self.memory.sp))
+                # print(str(self.memory.sp))
+                if token_info["params"]["verbose"] == True:
+                    print(str("Current position: " + str(self.memory.sp)))
+                elif token_info["params"]["verbose"] == False:
+                    print(str(self.memory.sp))
+            if token_type == "PRINT_TOKEN":
+                print(str(token_info["params"]["value"]).strip('\'"'))
 
             if token_type == "ADD_TOKEN":
                 self.memory.back()

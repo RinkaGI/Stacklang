@@ -1,0 +1,3 @@
+Input> 452
+Input> 252
+Current value: 704

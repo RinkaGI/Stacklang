@@ -13,15 +13,15 @@ Adding calculator (it receives 2 numbers and return the value of adding)
 ```
 start
 
-input
-input
+input verbose
+input verbose
 
 advance
+
 add
+show.current.value verbose
 
-get.value
-
-end
+end 
 ```
 
 ## Guide
@@ -31,12 +31,13 @@ end
 
 *exit* Ends the program.
 #### Input and Output
-*input* Reads a number from the user
+*input* Reads a number from the user, params: verbose | no.verbose
 
-*show.current.value* Print the value in the current position
+*show.current.value* Print the value in the current position, params: verbose | no.verbose
 
-*show.current.position* Print the index of the current position
+*show.current.position* Print the index of the current position, params: verbose | no.verbose
 
+*print* Print a string, params: "string" | "number" (COMPULSORY "")
 #### Math
 *add* Adds the numbers of the 2 numbers behind the position and creates a new position with the value (the pointer goes to the new position auto)
 

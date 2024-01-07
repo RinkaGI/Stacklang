@@ -1,11 +1,11 @@
 start
 
-input
-input
+input verbose
+input verbose
 
 advance
 
 add
-show.current.value 
+show.current.value verbose
 
-end
+end 
