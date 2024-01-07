@@ -4,8 +4,8 @@ input
 input
 
 advance
-add
 
-get.value
+add
+show.current.value 
 
 end
